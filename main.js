@@ -10,55 +10,168 @@ var { comparerTest } = require('./dossier.js');
 var { statistiques } = require('./questions.js');
 const questionAsync = require('./interactionUtilisateur.js');
 
+
+
 class Menu{
+    test = new QCM([]);
+    importQuestions = new QCM([]);
+    path = "";
+
     menuEnseignant(){
-        console.log("Hye")
-        //console.log(importQuestions.questions.length);
-        switch(importQuestions.questions.length){
-            case(0): menuSansQCM();break;
+        //Le menu sans QCM est affiché car il permet de charger la banque de donnée
+        switch(this.importQuestions.questions.length){
+            case(0): this.menuSansQCM();break;
+            default: this.menuClassique();break;
         }
     }
-    async menuSansQCM(){
-        console.log("hye");
-        let choix = await questionAsync("Parcourir la banque de question Quitter Exporter VCARD \nQue souhaitez-vous faire ?");
-        console.log("choix");
-        if (choix === 0) {
-            let results = parcourirBanqueQuestion();
-            importQuestions = results.f;
-            path = results.d;
-        } else if (choix === 1) {
-            infoToVcard(whoIsUser);
-            return; // Quitter le programme
+
+
+    async menuEnseignant(){
+        let choix = await questionAsync("1 - Parcourir la banque de question\n2 - Quitter \n3 - Exporter VCARD\nQue souhaitez-vous faire ?");
+        switch(choix){
+            case "1":
+                let results = await this.parcourirBanqueQuestion();
+                this.importQuestions = results.f;
+                this.path = results.d;
+                break;
+            case "2":
+                return;
+            case "3":
+                infoToVcard(whoIsUser);
+                return;
         }
-        else if (choix === 2) {
-            return; // Quitter le programme
+        //après avoir charger les questions on peut charger le menu classique 
+        this.menuClassiqueEnseignant();
+    }
+        
+    async menuClassiqueEnseignant(){
+        console.clear();
+        let choix;
+        do{
+            choix = await questionAsync("1 - Parcourir la banque de question\n2 - Selectionner les questions du test\n3 - Afficher toutes les questions selectionnées\n4 - Qualite du test\n5 - Simuler Test\n6 - Exporter Test\n7 - Exporter VCARD\n8 - Quitter\nSelection : ");
+            switch(choix){
+                case "1":
+                    let results = await this.parcourirBanqueQuestion();
+                    importQuestions = results.f;
+                    path = results.d;
+                    break;
+                case "2":
+                    await this.menuSelectionQuestion();
+                    break;
+                case "3":
+                    await this.test.afficherToutesQuestions();
+                    break;
+                case "4":
+                    await this.test.verifierQualite();
+                    break;
+                case "5":
+                    await this.test.exporterFichier();
+                    console.log("Le fichier a été exporté avec succès.".green);
+                    break;
+                case "6":
+                    await infoToVcard(whoIsUser);
+                    console.log("Le fichier a été exporté avec succès.".green);
+                    break;
+                case "7":
+                    statistiques(test.questions);
+                    console.log("Le fichier a été exporté avec succès.".green);
+                case "8":
+                    console.log("exit...");
+                default :
+                    console.log("Rentrer chiffre valable");
+            }
+        }while(choix!="8");
+    }
+    
+    async menuSelectionQuestion(){
+        let userInput;
+        let number;
+        let choix1;
+        do{
+            choix1 = await questionAsync("1 - Selection\n2 - Deselection\n3 - Terminer la selection\nSelectionner : ");
+            let longueurQuestion = this.importQuestions.questions.length;
+            switch(choix1){
+                case "1":
+                    userInput = await questionAsync(`Entrer un entier entre 0 et ${longueurQuestion}\nSelection : `);
+                    number = parseInt(userInput);
+                    if (!isNaN(userInput) && userInput >= 0 && userInput < this.importQuestions.questions.length - 1) {
+                        this.questionSelection(this.importQuestions, this.test, number, "selection");
+    
+                    } else {
+                        console.log('L\'index entré n\'appartient pas à la liste d\'instances de la classe question.'.red);
+                    }
+                    break;
+                case "2":
+                    userInput = await questionAsync(`Entrer un entier entre 0 et ${longueurQuestion}`);
+                    number = parseInt(userInput);
+                    if (!isNaN(userInput) && userInput >= 0 && userInput < this.importQuestions.questions.length) {
+                        this.questionSelection(this.importQuestions, this.test, number, "deselection");
+    
+                    } else {
+                        console.log('L\'index entré n\'appartient pas à la liste d\'instances de la classe question.'.red);
+                    }
+                    break;
+            }
+        }while(choix1!="3");
+    }   
+
+    async parcourirBanqueQuestion() {
+        let importQuestions;
+        console.clear();
+        let path = "./questions_data";
+        const getDirectories = fs.readdirSync(__dirname + '/questions_data', { withFileTypes: true }).filter(dirent => dirent.isDirectory()).map(dirent => dirent.name);
+        console.log("Veuillez choisir un dossier :");
+        getDirectories.forEach(element => {
+            console.log(element);
+        });
+        let choix = await questionAsync("Choix : ");
+        path += "/" + choix;
+        const getFile = fs.readdirSync(path);
+        console.log("Veuillez choisir un fichier :");
+        getFile.forEach(element => {
+            console.log(element);
+        });
+        choix = await questionAsync("Choix : ");
+        path += "/" + choix;
+        let importRaw = fs.readFileSync(path, 'utf8');
+        let parser = new Parser();
+        parser.parse(importRaw);
+        importQuestions = new QCM(parser.parsedQuestions);
+        console.log("Voici les questions importées :");
+        importQuestions.afficherToutesQuestions();
+        return { f: importQuestions, d: path };
+    }
+
+    questionSelection(parsedQuestions, test, numeroQuestion, action) {
+        if (action === 'selection') {
+            // Ajouter la question à la liste des questions sélectionnées
+            // Vous pourriez avoir une propriété pour stocker les questions sélectionnées dans votre classe
+            test.questions.push(parsedQuestions.questions[numeroQuestion - 0]);
+            console.log(`Question ${numeroQuestion} sélectionnée.`.green);
+            console.log(`${parsedQuestions.questions[numeroQuestion].text} (${parsedQuestions.questions[numeroQuestion].typeOfQuestion})`.green);
+        } else if (action === 'deselection') {
+            // Retirer la question de la liste des questions sélectionnées
+            // Vous pourriez avoir une propriété pour stocker les questions sélectionnées dans votre classe
+            test.questions = test.questions.filter((question) => question !== parsedQuestions.questions[numeroQuestion]);
+            console.log(`Question ${numeroQuestion} désélectionnée.`.green);
+        } else {
+            console.log('Action invalide. Utilisez "selection" ou "deselection".'.red);
         }
     }
 }
+
 
 async function main(){
     menu = new Menu();
     //permet de se connecter
     var whoIsUser = await accountConnexion();
 
-
-    //définition de QCM au début??
-    if (test == undefined) {
-        var test = new QCM([]);
-    }
-    if (importQuestions == undefined) {
-        var importQuestions = new QCM([]);
-        var path = "";
-    }
-
     //garde en mémoire les commandes possible pour l'utilisateur
     let possibleCommands;
     switch(whoIsUser[0]){
-        case("Enseignant"):console.log("HEYYY");menu.menuEnseignant();break;
+        case("Enseignant"):menu.menuEnseignant();break;
         case("SYREM"): menu.menuSYREM();break;
-    }
-
-    
+    }   
 }
 
 
