@@ -216,7 +216,7 @@ async function main(){
 
     switch(whoIsUser[0]){
         case("Enseignant"):menu.menuEnseignant();break;
-        case("SYREM"): menu.menuSYREM();break;
+        case("SRYEM"): menu.menuSYREM();break;
     }   
 }
 
