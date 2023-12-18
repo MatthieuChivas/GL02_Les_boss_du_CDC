@@ -79,7 +79,7 @@ class Menu{
         }while(choix!="8");
     }
 
-    async menuClassiqueSYREM(){
+    async menuSRYEM(){
         console.clear();
         let choix;
         do{
@@ -216,7 +216,7 @@ async function main(){
 
     switch(whoIsUser[0]){
         case("Enseignant"):menu.menuEnseignant();break;
-        case("SRYEM"): menu.menuSYREM();break;
+        case("SRYEM"): menu.menuSRYEM();break;
     }   
 }
 
