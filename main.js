@@ -9,13 +9,55 @@ var infoToVcard = require('./infoToVcard.js');
 var { comparerTest } = require('./dossier.js');
 var { statistiques } = require('./questions.js');
 
+//permet de se connecter
+var whoIsUser = accountConnexion();
+
+
+//définition de QCM au début??
+if (test == undefined) {
+    var test = new QCM([]);
+}
+if (importQuestions == undefined) {
+    var importQuestions = new QCM([]);
+    var path = "";
+}
+
+//garde en mémoire les commandes possible pour l'utilisateur
+let possibleCommands;
+switch(whoIsUser[0]){
+    case("Enseignant"):menuEnseignant();break;
+    case("SYREM"): menuSYREM();break;
+}
+
+function menuEnseignant(){
+    console.log(importQuestions.questions.length);
+    switch(importQuestions.questions.length){
+        case(0):menuSansQCM();break;
+    }
+}
+
+function menuSansQCM(){
+    let choix = readlineSync.keyInSelect(['Parcourir la banque de question', 'Quitter', 'Exporter VCARD'], 'Que souhaitez-vous faire ?');
+    if (choix === 0) {
+        let results = parcourirBanqueQuestion();
+        importQuestions = results.f;
+        path = results.d;
+    } else if (choix === 1) {
+        infoToVcard(whoIsUser);
+        return; // Quitter le programme
+    }
+    else if (choix === 2) {
+        return; // Quitter le programme
+    }
+}
+/*
 isConneted = false;
 while (true) {
     if (isConneted == false) {
         var whoIsUser = accountConnexion();
         isConneted = true;
     }
-    var possibleCommands;
+    
     if (whoIsUser[0] == "Enseignant") {
         possibleCommands = ['Parcourir la banque de question', 'Selectionner les questions du test', 'Afficher toutes les questions selectionnées', 'Qualite du test', 'Simuler Test', 'Exporter Test', 'Exporter VCARD', 'Quitter'];
     } else {
@@ -198,4 +240,4 @@ function questionSelection(parsedQuestions, test, numeroQuestion, action) {
     } else {
         console.log('Action invalide. Utilisez "selection" ou "deselection".'.red);
     }
-}
+}*/

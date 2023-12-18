@@ -61,9 +61,10 @@ choisir: while (true) {     //Tant que le choix n'est pas bon, on redemande de c
                         //On demande maintenant à l'utilisateur son login et mot de passe
                         enteredID = readlineSync.question("Entrez votre nom d'utilisateur : ");
                         var enteredPASSWORD = readlineSync.question("Entrez votre mot de passe : ");
-
+                        
                         for (let i = 0; i< tab_allUserLoginInfos.length; i++){
                             if (tab_allUserLoginInfos[i] == 'Username:' + enteredID + '-Password:' + enteredPASSWORD){
+                                console.log("Hey");
                                 isIdentified = true;
                                 break;
                             }
