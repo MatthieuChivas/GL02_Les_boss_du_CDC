@@ -8,48 +8,67 @@ var colors = require('colors');
 var infoToVcard = require('./infoToVcard.js');
 var { comparerTest } = require('./dossier.js');
 var { statistiques } = require('./questions.js');
+const questionAsync = require('./interactionUtilisateur.js');
 
-//permet de se connecter
-var whoIsUser = accountConnexion();
-
-
-//définition de QCM au début??
-if (test == undefined) {
-    var test = new QCM([]);
-}
-if (importQuestions == undefined) {
-    var importQuestions = new QCM([]);
-    var path = "";
-}
-
-//garde en mémoire les commandes possible pour l'utilisateur
-let possibleCommands;
-switch(whoIsUser[0]){
-    case("Enseignant"):menuEnseignant();break;
-    case("SYREM"): menuSYREM();break;
-}
-
-function menuEnseignant(){
-    console.log(importQuestions.questions.length);
-    switch(importQuestions.questions.length){
-        case(0):menuSansQCM();break;
+class Menu{
+    menuEnseignant(){
+        console.log("Hye")
+        //console.log(importQuestions.questions.length);
+        switch(importQuestions.questions.length){
+            case(0): menuSansQCM();break;
+        }
+    }
+    async menuSansQCM(){
+        console.log("hye");
+        let choix = await questionAsync("Parcourir la banque de question Quitter Exporter VCARD \nQue souhaitez-vous faire ?");
+        console.log("choix");
+        if (choix === 0) {
+            let results = parcourirBanqueQuestion();
+            importQuestions = results.f;
+            path = results.d;
+        } else if (choix === 1) {
+            infoToVcard(whoIsUser);
+            return; // Quitter le programme
+        }
+        else if (choix === 2) {
+            return; // Quitter le programme
+        }
     }
 }
 
-function menuSansQCM(){
-    let choix = readlineSync.keyInSelect(['Parcourir la banque de question', 'Quitter', 'Exporter VCARD'], 'Que souhaitez-vous faire ?');
-    if (choix === 0) {
-        let results = parcourirBanqueQuestion();
-        importQuestions = results.f;
-        path = results.d;
-    } else if (choix === 1) {
-        infoToVcard(whoIsUser);
-        return; // Quitter le programme
+async function main(){
+    menu = new Menu();
+    //permet de se connecter
+    var whoIsUser = await accountConnexion();
+
+
+    //définition de QCM au début??
+    if (test == undefined) {
+        var test = new QCM([]);
     }
-    else if (choix === 2) {
-        return; // Quitter le programme
+    if (importQuestions == undefined) {
+        var importQuestions = new QCM([]);
+        var path = "";
     }
+
+    //garde en mémoire les commandes possible pour l'utilisateur
+    let possibleCommands;
+    switch(whoIsUser[0]){
+        case("Enseignant"):console.log("HEYYY");menu.menuEnseignant();break;
+        case("SYREM"): menu.menuSYREM();break;
+    }
+
+    
 }
+
+
+
+
+main();
+
+
+
+
 /*
 isConneted = false;
 while (true) {
