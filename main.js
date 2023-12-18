@@ -26,7 +26,7 @@ class Menu{
     }
 
 
-    async menuEnseignant(){
+    async menuSansQCM(){
         let choix = await questionAsync("1 - Parcourir la banque de question\n2 - Quitter \n3 - Exporter VCARD\nQue souhaitez-vous faire ?");
         switch(choix){
             case "1":
