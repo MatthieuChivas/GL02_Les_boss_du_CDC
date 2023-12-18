@@ -17,16 +17,7 @@ class Menu{
     importQuestions = new QCM([]);
     path = "";
 
-    menuEnseignant(){
-        //Le menu sans QCM est affiché car il permet de charger la banque de donnée
-        switch(this.importQuestions.questions.length){
-            case(0): this.menuSansQCM();break;
-            default: this.menuClassique();break;
-        }
-    }
-
-
-    async menuSansQCM(){
+    async menuEnseignant(){
         let choix = await questionAsync("1 - Parcourir la banque de question\n2 - Quitter \n3 - Exporter VCARD\nQue souhaitez-vous faire ?");
         switch(choix){
             case "1":
@@ -52,7 +43,7 @@ class Menu{
             switch(choix){
                 case "1":
                     let results = await this.parcourirBanqueQuestion();
-                    importQuestions = results.f;
+                    this.importQuestions = results.f;
                     path = results.d;
                     break;
                 case "2":

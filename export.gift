@@ -1,8 +1,3 @@
-::Grant is <Answer> in Grant's tomb.::Grant is <Answer> in Grant's tomb.{~buried =entombed ~living}
-
-::Grant is buried in Grant's tomb.<Answer>::Grant is buried in Grant's tomb.{FALSE}
-
-::The sun rises in the east.<Answer>::The sun rises in the east.{T}
-
-::Grant is <Answer> in Grant's tomb.::Grant is <Answer> in Grant's tomb.{~buried =entombed ~living}
+::U9 p95 4.2 Third conditional::[html]<b>A:</b> I hit my head on the windscreen when I stopped. (<i>wear a seatbelt</i>) <br>
+<b>B:</b> You ____.{}
 
