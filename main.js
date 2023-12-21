@@ -131,12 +131,13 @@ class Menu{
         let choix1;
         do{
             choix1 = await questionAsync("1 - Selection\n2 - Deselection\n3 - Terminer la selection\nSelectionner : ");
-            let longueurQuestion = this.importQuestions.questions.length;
+            let longueurQuestion = this.importQuestions.questions.length - 1;
+            console.log(longueurQuestion)
             switch(choix1){
                 case "1":
                     userInput = await questionAsync(`Entrer un entier entre 0 et ${longueurQuestion}\nSelection : `);
                     number = parseInt(userInput);
-                    if (!isNaN(userInput) && userInput >= 0 && userInput < this.importQuestions.questions.length - 1) {
+                    if (!isNaN(userInput) && userInput >= 0 && userInput < this.importQuestions.questions.length) {
                         this.questionSelection(this.importQuestions, this.test, number, "selection");
     
                     } else {
