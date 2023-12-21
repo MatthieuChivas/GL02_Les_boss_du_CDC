@@ -53,7 +53,12 @@ class Menu{
                     await this.menuSelectionQuestion();
                     break;
                 case "3":
+                    let choixAffichage = "oui"
                     await this.test.afficherToutesQuestions();
+                    while (choixAffichage === "oui"){
+                        choixAffichage = await questionAsync("Arreter de regarder les questions ? oui/non\n")
+                    }
+                    console.clear();
                     break;
                 case "4":
                     await this.test.verifierQualite();
@@ -94,7 +99,12 @@ class Menu{
                     await this.menuSelectionQuestion();
                     break;
                 case "3":
-                    await this.test.afficherToutesQuestions();
+                    let choix = "oui"
+                    while (choix === "oui"){
+                        await this.test.afficherToutesQuestions();
+                        choix = await questionAsync("Arreter de regarder les questions ? oui/non")
+                        console.clear
+                    }
                     break;
                 case "4":
                     await this.test.verifierQualite();
@@ -124,6 +134,8 @@ class Menu{
             }
         }while(choix!="10");
     }
+
+    
     
     async menuSelectionQuestion(){
         let userInput;
