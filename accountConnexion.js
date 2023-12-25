@@ -48,7 +48,6 @@ const accountConnexion = async () => {
                         isIdentified = true;
                         break;
                     }
-
                 }
                 if (isIdentified == true) {
                     console.log('Bonjour ' + enteredID + '. Vous êtes bien connecté.');
@@ -56,8 +55,6 @@ const accountConnexion = async () => {
                     console.log('Utilisateur ou mot de passe erroné. Veuillez recommencer.');
                 }
             }
-
-
             whoIsUser[0] = 'Enseignant';
             whoIsUser[1] = enteredID;
             return (whoIsUser);
