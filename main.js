@@ -208,7 +208,12 @@ class Menu{
 async function main(){
     //permet de se connecter
     var whoIsUser = await accountConnexion();
-    console.log("l'utilisateur est :"+ whoIsUser);
+    console.clear();
+    //permet d'accèder au login si l'utilisateur a choisi register 
+    //pas du tout opti : besoin d'amélioration 
+    while(whoIsUser==undefined){
+        var whoIsUser = await accountConnexion();
+    }
     //creer un objet menu pour la gestion utilisateur
     menu = new Menu(whoIsUser);
 

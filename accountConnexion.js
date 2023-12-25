@@ -24,6 +24,9 @@ const accountConnexion = async () => {
 
     connexionWindow();
     var choix = await questionAsync("Choix : ");
+    switch(choix){
+        case 1: await login();break;
+    }
     //Log-in
     if (choix == 1){
         var choixTypeUser = await questionAsync("Qui etes vous ?\n[1] Enseignant      [2] SRYEM \n");
@@ -31,8 +34,11 @@ const accountConnexion = async () => {
         if (choixTypeUser == 1){
             //On lit d'abord le fichier avec les mots de passe / usernames
             const allUserLoginInfos = fs.readFileSync('./loginFile/userLogins.txt',{ encoding: 'utf8', flag: 'r' });
+            console.log(allUserLoginInfos);
             //On transforme le string obtenu en tableau 
             const tab_allUserLoginInfos = allUserLoginInfos.split("\r\n");
+            
+            console.log(tab_allUserLoginInfos);
             while (isIdentified == false){
                 //On demande maintenant à l'utilisateur son login et mot de passe
                 enteredID = await questionAsync("Entrez votre nom d'utilisateur : ");
@@ -61,7 +67,7 @@ const accountConnexion = async () => {
             const allUserLoginInfos = fs.readFileSync('./loginFile/adminLogins.txt',{ encoding: 'utf8', flag: 'r' });
             //On transforme le string obtenu en tableau 
             const tab_allUserLoginInfos = allUserLoginInfos.split("\r\n");
-
+            console.log(tab_allUserLoginInfos);
             while (isIdentified == false){
                 //On demande maintenant à l'utilisateur son login et mot de passe
                 enteredID = await questionAsync("Entrez votre nom d'utilisateur : ");
@@ -98,20 +104,15 @@ const accountConnexion = async () => {
             }
         }
         //On crée le string qui va être injecté dans le fichier
-        var userLoginInfos = '\nUsername:' + userName + '-Password:' + password;    
+        var userLoginInfos = '\r\nUsername:' + userName + '-Password:' + password;    
         //On injecte dans le fichier
-        fs.appendFileSync('./loginFile/userLogins.txt', userLoginInfos, err => {
-            if (err) {
-            console.log("Erreur");
-            } else {
-            }
-        });
+        fs.appendFileSync('./loginFile/userLogins.txt', userLoginInfos);
         console.log("Compte enregistré !");
-        connexionWindow();
     } else {
         console.log("Choix invalide, veuillez recommencer.");
     }
 }
+
 
 
 
