@@ -17,6 +17,7 @@ class Menu{
     importQuestions = new QCM([]);
     path = "";
     whoIsUser;
+
     Menu(whoIsUser){
         this.whoIsUser=whoIsUser;
     }
@@ -207,7 +208,7 @@ class Menu{
 async function main(){
     //permet de se connecter
     var whoIsUser = await accountConnexion();
-
+    console.log("l'utilisateur est :"+ whoIsUser);
     //creer un objet menu pour la gestion utilisateur
     menu = new Menu(whoIsUser);
 
