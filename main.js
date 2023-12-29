@@ -54,7 +54,12 @@ class Menu{
                     await this.menuSelectionQuestion();
                     break;
                 case "3":
+                    let choixAffichage = "oui"
                     await this.test.afficherToutesQuestions();
+                    while (choixAffichage === "oui"){
+                        choixAffichage = await questionAsync("Arreter de regarder les questions ? oui/non\n")
+                    }
+                    console.clear();
                     break;
                 case "4":
                     await this.test.verifierQualite();
@@ -95,7 +100,12 @@ class Menu{
                     await this.menuSelectionQuestion();
                     break;
                 case "3":
-                    await this.test.afficherToutesQuestions();
+                    let choix = "oui"
+                    while (choix === "oui"){
+                        await this.test.afficherToutesQuestions();
+                        choix = await questionAsync("Arreter de regarder les questions ? oui/non")
+                        console.clear
+                    }
                     break;
                 case "4":
                     await this.test.verifierQualite();
@@ -125,6 +135,8 @@ class Menu{
             }
         }while(choix!="10");
     }
+
+    
     
     async menuSelectionQuestion(){
         let userInput;
@@ -132,12 +144,13 @@ class Menu{
         let choix1;
         do{
             choix1 = await questionAsync("1 - Selection\n2 - Deselection\n3 - Terminer la selection\nSelectionner : ");
-            let longueurQuestion = this.importQuestions.questions.length;
+            let longueurQuestion = this.importQuestions.questions.length - 1;
+            console.log(longueurQuestion)
             switch(choix1){
                 case "1":
                     userInput = await questionAsync(`Entrer un entier entre 0 et ${longueurQuestion}\nSelection : `);
                     number = parseInt(userInput);
-                    if (!isNaN(userInput) && userInput >= 0 && userInput < this.importQuestions.questions.length - 1) {
+                    if (!isNaN(userInput) && userInput >= 0 && userInput < this.importQuestions.questions.length) {
                         this.questionSelection(this.importQuestions, this.test, number, "selection");
     
                     } else {
