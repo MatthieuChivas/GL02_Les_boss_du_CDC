@@ -145,7 +145,6 @@ class Menu{
         do{
             choix1 = await questionAsync("1 - Selection\n2 - Deselection\n3 - Terminer la selection\nSelectionner : ");
             let longueurQuestion = this.importQuestions.questions.length - 1;
-            console.log(longueurQuestion)
             switch(choix1){
                 case "1":
                     userInput = await questionAsync(`Entrer un entier entre 0 et ${longueurQuestion}\nSelection : `);
