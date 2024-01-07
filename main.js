@@ -6,7 +6,7 @@ var fs = require('fs');
 var { QCM } = require('./qcm.js');
 var colors = require('colors');
 var infoToVcard = require('./infoToVcard.js');
-var { comparerTest } = require('./dossier.js');
+//var { comparerTest } = require('./dossier.js');
 var { statistiques } = require('./questions.js');
 var { profilType } = require('./questions.js');
 const questionAsync = require('./interactionUtilisateur.js');
@@ -74,8 +74,7 @@ class Menu{
                     console.log("Le fichier a été exporté avec succès.".green);
                     break;
                 case "7":
-                    statistiques(this.test.questions);
-                    console.log("Le fichier a été exporté avec succès.".green);
+                    console.log("Cette fonction n'a pas été codé");
                     break;
                 case "8":
                     console.log("exit...");
@@ -123,13 +122,11 @@ class Menu{
                     //Cette fonction n'a pas été codé? 
                     break;
                 case "8":
-                    //let folderPath = this.path.replace(/[^\/]{1,}$/gm, "")
-                    //comparerTest(this.path, folderPath);
                     profilType(this.test.questions);
                     break;
                 case "9":
                     statistiques(this.test.questions, this.path);
-                    console.log("Le fichier a été exporté avec succès.".green);
+                    console.log("Le fichier a été exporté avec succès. Il est accessible depuis vos documents dans le dossier du projet sous le nom d'histogramme.svg".green);
                     break;
                 case "10":
                     console.log("exit...");

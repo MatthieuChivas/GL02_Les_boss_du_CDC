@@ -105,56 +105,58 @@ function profilType(Test){
 function statistiques(Test, testAComparer){
     let data = {"Values" : []};
     let nbTotalQuestions = 0;
+    //remplissage du dictionnaire data avec les types de questions du test actuellement sélectionner
     Test.forEach((questions) => {
         TypeRecherche = questions.typeOfQuestion;
         TypeTrouver = false;
+        //on parcourt le tableau en cours de création
         data.Values.forEach((Value) =>{
+            //si le type de question est déjà enregistrer dans le tableau on rajoute +1
             if (Value.type == TypeRecherche){
                 TypeTrouver = true;
                 Value.nbquestions += 1;
             }
         });
+        //sinon, on ajoute une nouvelle ligne avec le nouveau type
         if (TypeTrouver === false){
             data.Values.push({"type" : TypeRecherche, "nbquestions" : 1, "nbquestionstot":0});
         }
         nbTotalQuestions += 1;
     });
+    //on calcule le pourcentage de chaque type de questions
     data.Values.forEach((Value)=>{
         Value.nbquestions = (Value.nbquestions * 100) / nbTotalQuestions
     });
-    console.log(data);
+
+    //on importe les questions du fichier original dans la variable TestsComparer
     let TestsComparer = importerQuestions(testAComparer);
     nbTotalQuestions = 0;
     TestsComparer.forEach((questions) => {
         TypeRecherche = questions.typeOfQuestion;
         TypeTrouver = false;
+        //on parcourt le tableau des types de données en cours de création
         data.Values.forEach((Value) =>{
+            //si le type de question est déjà enregistrer dans le tableau on rajoute +1
             if (Value.type == TypeRecherche){
                 TypeTrouver = true;
                 Value.nbquestionstot += 1;
             }
         });
+        //sinon, on ajoute une nouvelle ligne avec le nouveau type
         if (TypeTrouver === false){
             data.Values.push({"type" : TypeRecherche, "nbquestions" : 0, "nbquestionstot": 0});
         }
         nbTotalQuestions += 1;
     });
+    //on calcule le pourcentage de chaque type de questions
     data.Values.forEach((Value)=>{
         Value.nbquestionstot = (Value.nbquestionstot * 100) / nbTotalQuestions
     });
-    console.log("deuxieme tableau");
+    //on affiche le tableau
+    console.log(`Affichage du tableau avec les types de questions du test actuellement sélectionner et les types de questions du fichier original de la base de données : \n`);
     console.log(data);
-
-    //questionsDossiers(testAComparer,data);
-    /*let Values = [];
-    Test.forEach((parsedQuestion) => {
-        Values.push({
-            type: parsedQuestion.typeOfQuestion,
-            count: 1,
-        });
-        console.log("ou j'affiche le tableau complet " + JSON.stringify(Values) + " \n\n");
-    })*/
     
+    //on créé un histogramme à partir des données contenues dans le dictionnaire data
     const spec = {
         "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
         "title":"Répartition des types de questions dans votre test",
@@ -162,14 +164,11 @@ function statistiques(Test, testAComparer){
             "values" : data.Values
         },
         "repeat": {"layer": ["nbquestions", "nbquestionstot"]},
-        //"columns" : 2,
         "spec" : {
             "mark": "bar",
             "encoding": {
                 "x": {"field": "type", "type": "nominal", "title" : "Types de questions"},
                 "y": {"field": {"repeat": "layer"}, "type": "quantitative", "title" : "Pourcentage de chaque type de questions"},
-                //"size": {"value": 20},
-                //"color": {"value": "#8C466F "},
                 "color": {"datum": {"repeat": "layer"}, "title": "Tests à comparer"},
                 "xOffset": {"datum": {"repeat": "layer"}}
             }
