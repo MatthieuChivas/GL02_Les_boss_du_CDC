@@ -8,6 +8,7 @@ var colors = require('colors');
 var infoToVcard = require('./infoToVcard.js');
 var { comparerTest } = require('./dossier.js');
 var { statistiques } = require('./questions.js');
+var { profilType } = require('./questions.js');
 const questionAsync = require('./interactionUtilisateur.js');
 
 
@@ -119,14 +120,16 @@ class Menu{
                     console.log("Le fichier a été exporté avec succès.".green);
                     break;
                 case "7":
-                    statistiques(this.test.questions);
-                    console.log("Le fichier a été exporté avec succès.".green);
+                    //Cette fonction n'a pas été codé? 
+                    break;
                 case "8":
-                    let folderPath = this.path.replace(/[^\/]{1,}$/gm, "")
-                    comparerTest(this.path, folderPath);
+                    //let folderPath = this.path.replace(/[^\/]{1,}$/gm, "")
+                    //comparerTest(this.path, folderPath);
+                    profilType(this.test.questions);
                     break;
                 case "9":
-                    //Cette fonction n'a pas été codé? 
+                    statistiques(this.test.questions, this.path);
+                    console.log("Le fichier a été exporté avec succès.".green);
                     break;
                 case "10":
                     console.log("exit...");

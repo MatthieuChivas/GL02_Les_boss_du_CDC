@@ -4,6 +4,9 @@ const {Question} = require('./qcm');
 const {QCM} = require('./qcm');
 const vega = require('vega');
 const vegalite = require('vega-lite');
+const { type } = require('os');
+const { types } = require('util');
+var {importerQuestions} = require('./dossier.js');
 
 
 //importer les questions depuis les fichiers à l'aide du parser
@@ -16,7 +19,6 @@ function importerQuestions(){
         let results = parser.parsedQuestions;
         return results;
 }
-
 //parcourir le tableau des class Question et afficher l'index et le contenu de chaque question
 function afficherAllQuestions(Questions) {
     Questions.forEach((parsedQuestion, index) => {
@@ -80,29 +82,101 @@ function deselectionnerQuestion(Test, index){
     }
 }
 
+//établir le profil type d'un test
+function profilType(Test){
+    let questionTypes = {};
+    let nbTotalQuestions = 0;
+    Test.forEach((questions) => {
+        if (questions.typeOfQuestion in questionTypes){
+            questionTypes[questions.typeOfQuestion] += 1; 
+        } else {
+            questionTypes[questions.typeOfQuestion] = 1;
+        }
+        nbTotalQuestions += 1;
+    });
+    for (let [type, nombreType] of Object.entries(questionTypes)) {
+        questionTypes[type] = (nombreType*100)/nbTotalQuestions;
+        console.log(`\n ${type} : ${questionTypes[type]} %`);
+      }
+}
+
 //afficher les statistiques d'un test
 //enregistre un histogramme avec la répartition des types de question dans le test
-function statistiques(Test){
-    let Values = [];
+function statistiques(Test, testAComparer){
+    let data = {"Values" : []};
+    let nbTotalQuestions = 0;
+    Test.forEach((questions) => {
+        TypeRecherche = questions.typeOfQuestion;
+        TypeTrouver = false;
+        data.Values.forEach((Value) =>{
+            if (Value.type == TypeRecherche){
+                TypeTrouver = true;
+                Value.nbquestions += 1;
+            }
+        });
+        if (TypeTrouver === false){
+            data.Values.push({"type" : TypeRecherche, "nbquestions" : 1, "nbquestionstot":0});
+        }
+        nbTotalQuestions += 1;
+    });
+    data.Values.forEach((Value)=>{
+        Value.nbquestions = (Value.nbquestions * 100) / nbTotalQuestions
+    });
+    console.log(data);
+    let TestsComparer = importerQuestions(testAComparer);
+    nbTotalQuestions = 0;
+    TestsComparer.forEach((questions) => {
+        TypeRecherche = questions.typeOfQuestion;
+        TypeTrouver = false;
+        data.Values.forEach((Value) =>{
+            if (Value.type == TypeRecherche){
+                TypeTrouver = true;
+                Value.nbquestionstot += 1;
+            }
+        });
+        if (TypeTrouver === false){
+            data.Values.push({"type" : TypeRecherche, "nbquestions" : 0, "nbquestionstot": 0});
+        }
+        nbTotalQuestions += 1;
+    });
+    data.Values.forEach((Value)=>{
+        Value.nbquestionstot = (Value.nbquestionstot * 100) / nbTotalQuestions
+    });
+    console.log("deuxieme tableau");
+    console.log(data);
+
+    //questionsDossiers(testAComparer,data);
+    /*let Values = [];
     Test.forEach((parsedQuestion) => {
         Values.push({
             type: parsedQuestion.typeOfQuestion,
             count: 1,
         });
-    })
+        console.log("ou j'affiche le tableau complet " + JSON.stringify(Values) + " \n\n");
+    })*/
+    
     const spec = {
         "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
         "title":"Répartition des types de questions dans votre test",
         "data": {
-            "values" : Values
+            "values" : data.Values
         },
-        "mark": "bar",
-        "encoding": {
-            "x": {"field": "type", "type": "nominal"},
-            "y": {"field": "count", "type": "quantitative"},
-            "size": {"value": 20},
-            "color": {"value": "#8C466F "}
+        "repeat": {"layer": ["nbquestions", "nbquestionstot"]},
+        //"columns" : 2,
+        "spec" : {
+            "mark": "bar",
+            "encoding": {
+                "x": {"field": "type", "type": "nominal", "title" : "Types de questions"},
+                "y": {"field": {"repeat": "layer"}, "type": "quantitative", "title" : "Pourcentage de chaque type de questions"},
+                //"size": {"value": 20},
+                //"color": {"value": "#8C466F "},
+                "color": {"datum": {"repeat": "layer"}, "title": "Tests à comparer"},
+                "xOffset": {"datum": {"repeat": "layer"}}
+            }
         },
+        "config": {
+            "mark": {"invalid": null}
+          }
     };
 
     let specCompiled = vegalite.compile(spec).spec;
@@ -125,7 +199,6 @@ module.exports = {
     afficherTest,
     selectionnerQuestion,
     deselectionnerQuestion,
-    statistiques
+    statistiques,
+    profilType
 };
-
-

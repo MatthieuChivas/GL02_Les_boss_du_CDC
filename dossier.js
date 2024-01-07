@@ -10,8 +10,11 @@ function importerQuestions(chemin){
     let data = fs.readFileSync(chemin, 'utf8');
         parser.parse(data);
         let results = parser.parsedQuestions;
+        //console.log("\n\n Je suis iciiiiiiiiiiiiiiiii \n\n");
+        //console.log(results);
         return results;
-}
+        //console.log("\n A chaque tour pour chaque question j'affiche le type de question : " + parsedQuestion.typeOfQuestion); 
+    }
 
 //avec le chemin du dossier, retourne un tableau des noms des fichiers contenus dans le dossier
 function obtenirFichiers(cheminDossier) {
@@ -81,4 +84,5 @@ function comparerTest(cheminTest, cheminGroupe){
 
 module.exports = {
     comparerTest,
+    importerQuestions
 }
