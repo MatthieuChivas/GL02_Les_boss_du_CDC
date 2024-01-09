@@ -57,7 +57,7 @@ class Menu{
                     let choixAffichage = "oui"
                     await this.test.afficherToutesQuestions();
                     while (choixAffichage === "oui"){
-                        choixAffichage = await questionAsync("Arreter de regarder les questions ? oui/non\n")
+                        choixAffichage = await questionAsync("Continuer de regarder les questions ? oui/non\n")
                     }
                     console.clear();
                     break;
