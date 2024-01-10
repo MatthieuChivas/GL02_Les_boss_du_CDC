@@ -24,7 +24,9 @@ const accountConnexion = async () => {
 
     connexionWindow();
     var choix = await questionAsync("Choix : ");
-    
+    while(choix!=1 && choix!=2){
+        var choix = await questionAsync("Mauvaise valeur (1 ou 2!) : ");
+    }
     //Log-in
     if (choix == 1) {
         var choixTypeUser = await questionAsync("Qui etes vous ?\n[1] Enseignant      [2] SRYEM \n");
