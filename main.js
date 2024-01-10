@@ -66,7 +66,7 @@ class Menu{
                     await this.test.verifierQualite();
                     break;
                 case "5":
-                    console.log("Cette fonction n'a pas été codé");
+                    await this.test.passerTest();
                     break;
                 case "6":
                     await this.test.exporterFichier();
@@ -111,15 +111,15 @@ class Menu{
                     await this.test.verifierQualite();
                     break;
                 case "5":
+                    await this.test.passerTest();
+                    break;
+                case "6":
                     await this.test.exporterFichier();
                     console.log("Le fichier a été exporté avec succès.".green);
                     break;
-                case "6":
+                case "7":
                     await infoToVcard(this.whoIsUser);
                     console.log("Le fichier a été exporté avec succès.".green);
-                    break;
-                case "7":
-                    //Cette fonction n'a pas été codé? 
                     break;
                 case "8":
                     profilType(this.test.questions);
