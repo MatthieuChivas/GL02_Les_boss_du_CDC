@@ -1,3 +1,4 @@
-::U9 p95 4.2 Third conditional::[html]<b>A:</b> I hit my head on the windscreen when I stopped. (<i>wear a seatbelt</i>) <br>
-<b>B:</b> You ____.{}
+::Grant is buried in Grant's tomb.<Answer>::Grant is buried in Grant's tomb.{FALSE}
+
+::Who's buried in Grant's tomb?<Answer>::Who's buried in Grant's tomb?{=no one =nobody}
 

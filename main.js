@@ -55,9 +55,9 @@ class Menu{
                     await this.menuSelectionQuestion();
                     break;
                 case "3":
-                    let choixAffichage = "oui"
+                    let choixAffichage = "non"
                     await this.test.afficherToutesQuestions();
-                    while (choixAffichage === "oui"){
+                    while (choixAffichage === "non"){
                         choixAffichage = await questionAsync("Arreter de regarder les questions ? oui/non\n")
                     }
                     console.clear();
@@ -66,15 +66,15 @@ class Menu{
                     await this.test.verifierQualite();
                     break;
                 case "5":
+                    console.log("Cette fonction n'a pas été codé");
+                    break;
+                case "6":
                     await this.test.exporterFichier();
                     console.log("Le fichier a été exporté avec succès.".green);
                     break;
-                case "6":
+                case "7":
                     await infoToVcard(this.whoIsUser);
                     console.log("Le fichier a été exporté avec succès.".green);
-                    break;
-                case "7":
-                    console.log("Cette fonction n'a pas été codé");
                     break;
                 case "8":
                     console.log("exit...");
