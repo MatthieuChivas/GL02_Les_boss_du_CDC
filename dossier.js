@@ -11,9 +11,9 @@ function importerQuestions(chemin){
         parser.parse(data);
         let results = parser.parsedQuestions;
         return results;
-}
+    }
 
-//avec le chemin du dossier, retourne un tableau des noms des fichiers contenus dans le dossier
+/*//avec le chemin du dossier, retourne un tableau des noms des fichiers contenus dans le dossier
 function obtenirFichiers(cheminDossier) {
     try {
         const nomsFichiers = fs.readdirSync(cheminDossier);
@@ -22,9 +22,9 @@ function obtenirFichiers(cheminDossier) {
         console.error('Erreur lors de la récupération des noms de fichiers :', erreur.message);
         return [];
     }
-}
+}*/
 
-//avec le tableau des noms des fichiers, parcourt chacun des fichiers et mets les questions dans un tableau
+/*//avec le tableau des noms des fichiers, parcourt chacun des fichiers et mets les questions dans un tableau
 function questionsDossiers(cheminDossier){
     let questionsAllFichiers = [];
     const nomsFichiers = obtenirFichiers(cheminDossier);
@@ -33,9 +33,9 @@ function questionsDossiers(cheminDossier){
         questionsAllFichiers = questionsAllFichiers.concat(questionOneFichier);
     });
     return questionsAllFichiers;
-}
+}*/
 
-//à partir d'un tableau de question (test ou issu d'un dossier) retourne un tableau avec le nombre et pourcentage de question pour chaque type
+/*//à partir d'un tableau de question (test ou issu d'un dossier) retourne un tableau avec le nombre et pourcentage de question pour chaque type
 function typeQuestion(Questions){
     let countType = [
         ['Description', 0],
@@ -77,8 +77,9 @@ function comparerTest(cheminTest, cheminGroupe){
     repartTest.forEach((type, index) => {
         console.log(`${type[0]} : votre test -> ${type[2]}% // ${repartGroupe[index][2]}% \n`);
     })
-}
+}*/
 
 module.exports = {
-    comparerTest,
+    //comparerTest,
+    importerQuestions
 }

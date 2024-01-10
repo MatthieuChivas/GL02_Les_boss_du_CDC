@@ -6,8 +6,9 @@ var fs = require('fs');
 var { QCM } = require('./qcm.js');
 var colors = require('colors');
 var infoToVcard = require('./infoToVcard.js');
-var { comparerTest } = require('./dossier.js');
+//var { comparerTest } = require('./dossier.js');
 var { statistiques } = require('./questions.js');
+var { profilType } = require('./questions.js');
 const questionAsync = require('./interactionUtilisateur.js');
 
 
@@ -54,10 +55,10 @@ class Menu{
                     await this.menuSelectionQuestion();
                     break;
                 case "3":
-                    let choixAffichage = "oui"
+                    let choixAffichage = "non"
                     await this.test.afficherToutesQuestions();
-                    while (choixAffichage === "oui"){
-                        choixAffichage = await questionAsync("Continuer de regarder les questions ? oui/non\n")
+                    while (choixAffichage === "non"){
+                        choixAffichage = await questionAsync("Arreter de regarder les questions ? oui/non\n")
                     }
                     console.clear();
                     break;
@@ -65,15 +66,14 @@ class Menu{
                     await this.test.verifierQualite();
                     break;
                 case "5":
+                    await this.test.passerTest();
+                    break;
+                case "6":
                     await this.test.exporterFichier();
                     console.log("Le fichier a été exporté avec succès.".green);
                     break;
-                case "6":
-                    await infoToVcard(this.whoIsUser);
-                    console.log("Le fichier a été exporté avec succès.".green);
-                    break;
                 case "7":
-                    statistiques(this.test.questions);
+                    await infoToVcard(this.whoIsUser);
                     console.log("Le fichier a été exporté avec succès.".green);
                     break;
                 case "8":
@@ -111,22 +111,22 @@ class Menu{
                     await this.test.verifierQualite();
                     break;
                 case "5":
+                    await this.test.passerTest();
+                    break;
+                case "6":
                     await this.test.exporterFichier();
                     console.log("Le fichier a été exporté avec succès.".green);
                     break;
-                case "6":
+                case "7":
                     await infoToVcard(this.whoIsUser);
                     console.log("Le fichier a été exporté avec succès.".green);
                     break;
-                case "7":
-                    statistiques(this.test.questions);
-                    console.log("Le fichier a été exporté avec succès.".green);
                 case "8":
-                    let folderPath = this.path.replace(/[^\/]{1,}$/gm, "")
-                    comparerTest(this.path, folderPath);
+                    profilType(this.test.questions);
                     break;
                 case "9":
-                    //Cette fonction n'a pas été codé? 
+                    statistiques(this.test.questions, this.path);
+                    console.log("Le fichier a été exporté avec succès. Il est accessible depuis vos documents dans le dossier du projet sous le nom d'histogramme.svg".green);
                     break;
                 case "10":
                     console.log("exit...");
