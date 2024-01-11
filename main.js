@@ -66,7 +66,6 @@ class Menu{
                     break;
                 case "5":
                     await this.test.exporterFichier();
-                    console.log("Le fichier a été exporté avec succès.".green);
                     break;
                 case "6":
                     await infoToVcard(this.whoIsUser);
@@ -111,8 +110,17 @@ class Menu{
                     await this.test.verifierQualite();
                     break;
                 case "5":
-                    await this.test.exporterFichier();
-                    console.log("Le fichier a été exporté avec succès.".green);
+                    console.log("Questions à exporter :");
+                    console.log(this.test.questions);
+                
+                    if (this.test.questions.length === 0) {
+                        console.log("Aucune question sélectionnée pour l'exportation.");
+                    } else {
+                        await this.test.exporterFichier();
+                        console.log("Le fichier a été exporté avec succès.".green);
+                    }
+                    /*await this.test.exporterFichier();
+                    console.log("Le fichier a été exporté avec succès.".green);*/
                     break;
                 case "6":
                     await infoToVcard(this.whoIsUser);

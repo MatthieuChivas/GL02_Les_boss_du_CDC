@@ -399,6 +399,11 @@ class QCM {
     }
 
     exporterFichier() {
+        // Vérifie si le nombre de questions est égal à zéro
+        if (this.questions.length === 0) {
+        console.log("Le questionnaire est vide. Impossible d'exporter.");
+        return; // Sort de la fonction si le questionnaire est vide
+        }
         let fs = require('fs');
         let stringToWrite = "";
         this.questions.map((question) => {
