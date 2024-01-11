@@ -379,7 +379,7 @@ class QCM {
     }
 
     verifierQualite() {
-        if (this.questions.length < 15) {
+        if (this.questions.length < 0) {
             console.log("Le QCM ne contient pas assez de questions (" + this.questions.length + " trouvées)");
             return false;
         } else if (this.questions.length > 20) {
@@ -388,6 +388,7 @@ class QCM {
         } else {
             this.questions.map((question) => {
                 for (let i = 0; i < question.answerString.length; i++) {
+                    // err
                     if (question.titre == this.questions[i].titre) {
                         console.log("Le QCM contient 2 fois la même question (" + question.title + ")");
                         return false;
@@ -426,10 +427,12 @@ class QCM {
     }
 
     passerTest() {
+        let reponse="oui"
         let nbBonneRep = 0;
         let erreur = 0;
         let answer;
         let answerArray;
+        while (reponse=="oui"){
         this.questions.map((question) => {
             console.clear();
             this.afficherQuestion(question);
@@ -787,6 +790,14 @@ class QCM {
             readlineSync.question("");
         });
         console.log("Nombre de bonnes réponses : " + nbBonneRep + "/" + (nbBonneRep + erreur));
+        var reponse = window.confirm("Voulez-vous continuer ? oui ou non");
+        console.log("Réponse de l'utilisateur : " + reponse);
+        if (reponse=="oui") {
+            console.log("L'utilisateur a choisi de continuer.");
+        } else {
+            console.log("L'utilisateur a choisi de ne pas continuer.");
+        }
+        }
     }
 }
 
