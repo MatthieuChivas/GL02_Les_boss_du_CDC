@@ -1,3 +1,4 @@
+const { green } = require('colors');
 const readlineSync = require('readline-sync'); // Importer le module readlinesync
 
 // Déclaration de classes qu'on utilise dans le projet (les 2 types d'objets qu'on manipule)
@@ -401,8 +402,11 @@ class QCM {
     exporterFichier() {
         // Vérifie si le nombre de questions est égal à zéro
         if (this.questions.length === 0) {
-        console.log("Le questionnaire est vide. Impossible d'exporter.");
+        console.log("Le questionnaire est vide. Impossible d'exporter.".green);
         return; // Sort de la fonction si le questionnaire est vide
+        }
+        else{
+            
         }
         let fs = require('fs');
         let stringToWrite = "";
@@ -426,7 +430,7 @@ class QCM {
             if (err) {
                 return console.log(err);
             }
-            console.log("The file was saved!");
+            console.log("Fichier sauvegardé avec succés!".green);
         });
     }
 

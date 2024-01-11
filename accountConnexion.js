@@ -24,8 +24,8 @@ const accountConnexion = async () => {
 
     connexionWindow();
     var choix = await questionAsync("Choix : ");
-    switch (choix) {
-        case 1: await login(); break;
+    while(choix!=1 && choix!=2){
+        var choix = await questionAsync("Mauvaise valeur (1 ou 2!) : ");
     }
     //Log-in
     if (choix == 1) {
@@ -34,7 +34,7 @@ const accountConnexion = async () => {
         if (choixTypeUser == 1) {
             //On lit d'abord le fichier avec les mots de passe / usernames
             const allUserLoginInfos = fs.readFileSync('./loginFile/userLogins.txt', { encoding: 'utf8', flag: 'r' });
-            console.log(allUserLoginInfos);
+            
             //On transforme le string obtenu en tableau 
             const tab_allUserLoginInfos = allUserLoginInfos.split("\r\n");
 
