@@ -1,4 +1,8 @@
-::When was Ulysses S. Grant born?<Answer>::When was Ulysses S. Grant born?{#1822:1}
+::Grant is <Answer> in Grant's tomb.::Grant is <Answer> in Grant's tomb.{~buried =entombed ~living}
+
+::Grant is buried in Grant's tomb.<Answer>::Grant is buried in Grant's tomb.{FALSE}
 
 ::Japanese characters originally came from what country? <Answer>::Japanese characters originally came from what country? { ~India =China ~Korea ~Egypt}
+
+::Who's buried in Grant's tomb?<Answer>::Who's buried in Grant's tomb?{~Grant ~Jefferson =no one }
 

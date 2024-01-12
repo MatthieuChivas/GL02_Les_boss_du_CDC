@@ -100,8 +100,8 @@ class Menu{
                     await this.menuSelectionQuestion();
                     break;
                 case "3":
-                    let choix = "oui"
-                    while (choix === "oui"){
+                    let choix = "non"
+                    while (choix === "non"){
                         await this.test.afficherToutesQuestions();
                         choix = await questionAsync("Arreter de regarder les questions ? oui/non")
                         console.clear
