@@ -38,7 +38,6 @@ const accountConnexion = async () => {
             //On transforme le string obtenu en tableau 
             const tab_allUserLoginInfos = allUserLoginInfos.split("\r\n");
 
-            console.log(tab_allUserLoginInfos);
             while (isIdentified == false) {
                 //On demande maintenant à l'utilisateur son login et mot de passe
                 enteredID = await questionAsync("Entrez votre nom d'utilisateur : ");
