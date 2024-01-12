@@ -67,6 +67,7 @@ class Menu{
                     break;
                 case "5":
                     await this.test.passerTest();
+                    process.stdin.resume();
                     break;
                 case "6":
                     await this.test.exporterFichier();
@@ -171,6 +172,8 @@ class Menu{
     //fonctionnalité pour parcourir la banque de question et crée le QCM
     async parcourirBanqueQuestion() {
         let importQuestions;
+        let bon=0;
+        let i;
         console.clear();
         let path = "./questions_data";
         const getDirectories = fs.readdirSync(__dirname + '/questions_data', { withFileTypes: true }).filter(dirent => dirent.isDirectory()).map(dirent => dirent.name);
@@ -181,11 +184,22 @@ class Menu{
         let choix = await questionAsync("Choix : ");
         path += "/" + choix;
         const getFile = fs.readdirSync(path);
-        console.log("Veuillez choisir un fichier :");
-        getFile.forEach(element => {
-            console.log(element);
-        });
-        choix = await questionAsync("Choix : ");
+        while (bon===0){
+            console.log("Veuillez choisir un fichier :");
+            getFile.forEach(element => {
+                console.log(element);
+            });
+            choix = await questionAsync("Choix : ");
+            bon=0;
+            for (i=0;i<getFile.length;i++){
+                if (choix===getFile[i]){
+                    bon=1;
+                }
+            }
+            if (bon===0){
+                console.log("Nom de fichier incorrect")
+            }
+        }
         path += "/" + choix;
         let importRaw = fs.readFileSync(path, 'utf8');
         let parser = new Parser();

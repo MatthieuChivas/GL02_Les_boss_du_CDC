@@ -380,7 +380,8 @@ class QCM {
     }
 
     verifierQualite() {
-        if (this.questions.length < 15) {
+        if (this.questions.length < 15
+) {
             console.log("Le QCM ne contient pas assez de questions (" + this.questions.length + " trouvées)");
             return false;
         } else if (this.questions.length > 20) {
